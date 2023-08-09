@@ -37,6 +37,8 @@ import {
   EntityOwnershipCard,
 } from '@backstage/plugin-org';
 import { EntityTechdocsContent } from '@backstage/plugin-techdocs';
+import { EntityTechInsightsScorecardContent } from '@backstage/plugin-tech-insights';
+import { EntityTechInsightsScorecardCard } from '@backstage/plugin-tech-insights';
 import { EmptyState } from '@backstage/core-components';
 import {
   Direction,
@@ -121,6 +123,12 @@ const overviewContent = (
       <EntityCatalogGraphCard variant="gridItem" height={400} />
     </Grid>
 
+    <Grid item md={12} xs={12}>
+      <EntityTechInsightsScorecardCard
+        title="Tech Insights scorecard"
+        description="Scorecard description" />
+    </Grid>
+
     <Grid item md={4} xs={12}>
       <EntityLinksCard />
     </Grid>
@@ -164,6 +172,11 @@ const serviceEntityPage = (
 
     <EntityLayout.Route path="/docs" title="Docs">
       {techdocsContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/tech-insights" title="Scorecards">
+      <EntityTechInsightsScorecardContent title="Customized title for the scorecard"
+      description="Scorecard description" />
     </EntityLayout.Route>
   </EntityLayout>
 );
