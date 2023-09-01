@@ -36,7 +36,6 @@ backend:
     #             - number
     #     - type: string
 
-    https: false
     # https:
     #   description: |-
     #     HTTPS configuration for the backend. If omitted the backend will serve HTTP.
