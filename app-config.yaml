@@ -1,42 +1,100 @@
 app:
   title: Scaffolded Backstage App
   baseUrl: http://localhost:3000
+  # type: string
+  # visibility: frontend
+  # description: The public absolute root URL that the frontend.
 
 organization:
   name: My Company
 
 backend:
   # Used for enabling authentication, secret is shared by all backend plugins
-  # See https://backstage.io/docs/auth/service-to-service-auth for
-  # information on the format
+  # See https://backstage.io/docs/auth/service-to-service-auth  
   # auth:
   #   keys:
   #     - secret: ${BACKEND_SECRET}
   baseUrl: http://localhost:7007
+    # type: string
+    # description: The public absolute root URL that the backend is reachable at.
+    # visibility: frontend
   listen:
     port: 7007
     # Uncomment the following host directive to bind to specific interfaces
     # host: 127.0.0.1
+    # description: Address that the backend should listen to.
+    #   anyOf:
+    #     - type: object
+    #       properties:
+    #         address:
+    #           description: Address of the interface that the backend should bind to.
+    #           type: string
+    #         port:
+    #           description: Port that the backend should listen to.
+    #           type:
+    #             - string
+    #             - number
+    #     - type: string
+
+    https: false
+    # https:
+    #   description: |-
+    #     HTTPS configuration for the backend. If omitted the backend will serve HTTP.
+    #     Setting this to `true` will cause self-signed certificates to be generated, which
+    #     can be useful for local development or other non-production scenarios.
+    #   anyOf:
+    #     - type: object
+    #       properties:
+    #         certificate:
+    #           description: Certificate configuration
+    #           type: object
+    #           required:
+    #             - cert
+    #             - key
+    #           properties:
+    #             cert:
+    #               description: PEM encoded certificate. Use $file to load in a file
+    #               type: string
+    #             key:
+    #               description: PEM encoded certificate key. Use $file to load in a file.
+    #               visibility: secret
+    #               type: string
+    #     - enum:
+    #         - true
+    #       type: boolean
+
   csp:
     connect-src: ["'self'", 'http:', 'https:']
     # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
     # Default Helmet Content-Security-Policy values can be removed by setting the key to false
+    # description: |-
+    #   Content Security Policy options.
+
+    #   The keys are the plain policy ID, e.g. "upgrade-insecure-requests". The
+    #   values are on the format that the helmet library expects them, as an
+    #   array of strings. There is also the special value false, which means to
+    #   remove the default value that Backstage puts in place for that policy.
+    # type: object
+    # additionalProperties:
+    #   anyOf:
+    #     - type: array
+    #       items:
+    #         type: string
+    #     - enum:
+    #         - false
+    #       type: boolean
+
   cors:
     origin: http://localhost:3000
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
-    credentials: true
+    # credentials: true
   # This is for local development only, it is not recommended to use this in production
   # The production database configuration is stored in app-config.production.yaml
   database:
-    # client: better-sqlite3
-    # connection: ':memory:'
-    client: pg
-    connection:
-      host: ${POSTGRES_HOST}
-      port: ${POSTGRES_PORT}
-      user: ${POSTGRES_USER}
-      password: ${POSTGRES_PASSWORD}
+    client: better-sqlite3
+    connection: ':memory:'
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
+
 integrations:
   github:
     - host: github.com
@@ -51,9 +109,10 @@ integrations:
 proxy:
   ### Example for how to add a proxy endpoint for the frontend.
   ### A typical reason to do this is to handle HTTPS and CORS for internal services.
-  # '/test':
-  #   target: 'https://example.com'
-  #   changeOrigin: true
+  # endpoints:
+  #   '/test':
+  #     target: 'https://example.com'
+  #     changeOrigin: true
 
 # Reference documentation http://backstage.io/docs/features/techdocs/configuration
 # Note: After experimenting with basic setup, use CI/CD to generate docs
